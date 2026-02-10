@@ -15841,7 +15841,8 @@ SWITCH_DECLARE(switch_status_t) switch_core_session_write_frame(switch_core_sess
 		return SWITCH_STATUS_FALSE;
 	}
 
-	if (switch_channel_test_flag(session->channel, CF_HOLD)) {
+	const char* caller_moh = switch_channel_get_variable(session->channel, "caller_moh");
+	if (switch_channel_test_flag(session->channel, CF_HOLD) && !(caller_moh && !strcasecmp(caller_moh, "true"))) {
 		return SWITCH_STATUS_SUCCESS;
 	}
 
